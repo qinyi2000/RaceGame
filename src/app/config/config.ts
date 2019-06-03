@@ -1,9 +1,10 @@
 import { SingleObstacles } from './../interfaces/single-obstacle';
-
+// sx and sy are the coordinates of the sub-rectangle of the source image to draw into the destination context
 export const playGroundHeight = window.innerHeight;
 export const playGroundWidth = 500;
 export const frameNumber = 0;
-export const spritePath = "../../assets/img/sprites.png"; // .. means up one folder; . means current folder
+export const spritePath = "../../assets/img/sprites.png"; // ../ means up one folder; ./ means current folder
+export const coinPath = "../../assets/img/coin.png";
 export const playerCarSpeed = 5;
 export const playerCar = {
 	sX: 410,  // Black Viper car
@@ -13,8 +14,12 @@ export const playerCar = {
 	width: 40,
 	height: 90,
 };
+export const coin = {
+	width: 60,
+	height: 60
+}
 export const vehicles: SingleObstacles[] = [
-	{
+	{	//s means start
 		sX: 35, // Green car
 		sY: 265,
 		sWidth: 68,

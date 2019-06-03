@@ -4,6 +4,10 @@ import * as CONFIG from './../config/config';
 import { Obstacles } from './../interfaces/obstacles';
 import { SingleObstacles } from './../interfaces/single-obstacle';
 import { PlayerPosition } from './../interfaces/player-position';
+import { SingleCoins } from '../interfaces/single-coin';
+import { Coins } from '../interfaces/coins';
+import { CONTEXT_NAME } from '@angular/compiler/src/render3/view/util';
+import { timingSafeEqual } from 'crypto';
 
 @Injectable()
 export class GameService {
@@ -18,8 +22,11 @@ export class GameService {
 
 	context: CanvasRenderingContext2D;
 	obstacles: Array<Obstacles> = [];
+	coins: Array<Coins> = [];
 	image: HTMLImageElement = null;
+	coinImage: HTMLImageElement = null;
 	gameLoop =  null;
+	coinLoop = null;
 	moveUP = false;
 	moveDown = false;
 	moveLeft = false;
@@ -34,6 +41,10 @@ export class GameService {
 			this.image.src = CONFIG.spritePath;
 			this.image.width = 58;
 			this.image.height = 128;
+			this.coinImage = new Image();
+			this.coinImage.src = CONFIG.coinPath;
+			this.coinImage.width = 40;
+			this.coinImage.height = 40;
 			resolve();
 		});
 	}
@@ -44,6 +55,8 @@ export class GameService {
 			this.cleanGround();
 			this.createObstacles();
 			this.moveObstacles();
+			this.createCoin();
+			this.moveCoins();
 			this.createPlayer();
 		}, 10);
 	}
@@ -63,6 +76,15 @@ export class GameService {
 				this.obstacles.splice(0, 5);
 			}
 			this.getSingleObstacle();
+		}
+	}
+
+	createCoin(): void {
+		if (this.frameNumber === 1 || this.animationFrame(100)) {
+			if (this.coins.length > 20) {
+				this.coins.splice(0, 5);
+			}
+			this.getSingleCoin();
 		}
 	}
 
@@ -88,12 +110,43 @@ export class GameService {
 		});
 	}
 
+	getSingleCoin(): void {
+		const context: CanvasRenderingContext2D = this.context;
+		const coinImage: HTMLImageElement = this.coinImage;
+		const coin: SingleCoins = CONFIG.coin;
+
+		this.coins.push(new function() {
+			this.x = Math.floor(Math.random() * 450) + 0,
+			this.y = Math.floor(Math.random() * -15) + 0,
+			this.width = coin.width;
+			this.height = coin.height;
+			this.update = () => {
+				context.drawImage(
+					coinImage,
+					this.x, this.y,
+					coin.width, coin.height
+				);
+			};
+		});
+	}
+
+	moveCoins(): void {
+		this.coins.forEach((element: Coins, index: number) => {
+			element.y += 3;
+			element.update();
+			
+			if (element.y > this.height || this.detectTouchCoin(element) ) {
+				this.coins.splice(index, 1);
+			}
+		});
+	}
+
 	moveObstacles(): void {
 		this.obstacles.forEach((element: Obstacles, index: number) => {
 			element.y += 3;
 			element.update();
 			this.detectCrash(element);
-			if (element.y > this.height) {
+			if (element.y > this.height || this.detectCrash(element)) {
 				this.obstacles.splice(index, 1);
 			}
 		});
@@ -161,6 +214,35 @@ export class GameService {
 			clearInterval(this.gameLoop);
 			alert('Game Over');
 			window.location.reload();
+		}
+	}
+
+	detectTouchCoin(c: Coins): boolean {
+		const componentLeftSide = c.x;
+		const componentRightSide = c.x + c.width;
+		const componentTop = c.y;
+		const componentBottom = c.y + c.height;
+
+		const carRightSide = this.player.x + CONFIG.playerCar.width;
+		const carLeftSide = this.player.x;
+		const carTop = this.player.y;
+		const carBottom = this.player.y + CONFIG.playerCar.height;
+
+		if ((
+			(carRightSide > componentLeftSide) && (carTop < componentBottom)
+		) && (
+			(carLeftSide < componentRightSide) && (carTop < componentBottom)
+		) && (
+			(carRightSide > componentLeftSide) && (carBottom > componentTop)
+		) && (
+			(carLeftSide < componentRightSide) && (carBottom > componentTop)
+		)
+	) {
+		this.context.clearRect(c.x, c.y, c.width, c.height);
+		
+		console.log("Got one coin!");
+		
+		return true;
 		}
 	}
 
