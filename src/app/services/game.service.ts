@@ -238,10 +238,10 @@ export class GameService {
 			(carLeftSide < componentRightSide) && (carBottom > componentTop)
 		)
 	) {
-		this.context.clearRect(c.x, c.y, c.width, c.height);
-		
-		console.log("Got one coin!");
-		
+		this.context.clearRect(c.x, c.y, c.width, c.height); 
+		// the canvas is drawn repeatedly, so if the collided coin is not remvoed from the array, it will keep being drawn when it leaves the range of the car;
+		// therefore, merely clearing it from the screen is not enough (cause it immediately gets covered by the next canvas and the next canvas still has the 
+		// coin in the array). However, if we only remove the coin from the array but do not clearRect, the coin would not even be removed. So we need both.
 		return true;
 		}
 	}

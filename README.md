@@ -5,6 +5,9 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ## Source
 This project was based on a project from [this website](https://www.codershood.info/2018/03/02/building-2d-racing-game-using-angular/)
 
+## Changes I made based on the original project
+* I added coins to the original project. Coins will flash across the screen just as car obstacles would; if the driver touches the coin, the coin will disappear
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
