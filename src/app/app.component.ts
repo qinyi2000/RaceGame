@@ -13,7 +13,7 @@ export class AppComponent implements AfterViewInit {
 
 	subscription: any;
 	showLoader = true;
-	text = "Pause";
+	button_text = "Pause";
 
 	constructor(
 		private appService: AppService,
@@ -23,9 +23,9 @@ export class AppComponent implements AfterViewInit {
 	public updatePauseStatus(){
 		const buttonStatus = this.gameService.updatePauseStatus();
 		if (buttonStatus) {
-			this.text = "Resume";
+			this.button_text = "Resume";
 		} else {
-			this.text = "Pause";
+			this.button_text = "Pause";
 		}
 	}
 
