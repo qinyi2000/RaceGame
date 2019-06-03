@@ -6,8 +6,8 @@ import { SingleObstacles } from './../interfaces/single-obstacle';
 import { PlayerPosition } from './../interfaces/player-position';
 import { SingleCoins } from '../interfaces/single-coin';
 import { Coins } from '../interfaces/coins';
-import { CONTEXT_NAME } from '@angular/compiler/src/render3/view/util';
-import { timingSafeEqual } from 'crypto';
+//import { CONTEXT_NAME } from '@angular/compiler/src/render3/view/util';
+//import { timingSafeEqual } from 'crypto';
 
 @Injectable()
 export class GameService {
@@ -31,6 +31,7 @@ export class GameService {
 	moveDown = false;
 	moveLeft = false;
 	moveRight = false;
+	isPaused = false;
 
 	loadAssets(canvasElement: HTMLCanvasElement): Promise<void>  {
 		this.context = canvasElement.getContext('2d');
@@ -49,15 +50,22 @@ export class GameService {
 		});
 	}
 
+	updatePauseStatus(){
+		this.isPaused = !this.isPaused;
+		return this.isPaused;
+	}
+
 	startGameLoop() {
 		this.gameLoop = setInterval(() => {
-			this.suffleProperties();
-			this.cleanGround();
-			this.createObstacles();
-			this.moveObstacles();
-			this.createCoin();
-			this.moveCoins();
-			this.createPlayer();
+			if (!this.isPaused) {
+				this.suffleProperties();
+				this.cleanGround();
+				this.createObstacles();
+				this.moveObstacles();
+				this.createCoin();
+				this.moveCoins();
+				this.createPlayer();
+				}
 		}, 10);
 	}
 

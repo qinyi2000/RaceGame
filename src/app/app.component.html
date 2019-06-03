@@ -24,5 +24,6 @@
       <h2>Loading</h2>
   </div>  
 </div>
+<button (click)="updatePauseStatus()" [value]="text">{{text}}</button>
 <canvas id="gameCanvas" #game_canvas class="play-ground"></canvas>
 <router-outlet></router-outlet>

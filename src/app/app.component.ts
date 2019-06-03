@@ -13,11 +13,21 @@ export class AppComponent implements AfterViewInit {
 
 	subscription: any;
 	showLoader = true;
+	text = "Pause";
 
 	constructor(
 		private appService: AppService,
 		private gameService: GameService
 	) {}
+
+	public updatePauseStatus(){
+		const buttonStatus = this.gameService.updatePauseStatus();
+		if (buttonStatus) {
+			this.text = "Resume";
+		} else {
+			this.text = "Pause";
+		}
+	}
 
 	public ngAfterViewInit() {
 		const canvasEl = document.querySelector("#gameCanvas") as HTMLCanvasElement;
