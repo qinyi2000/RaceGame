@@ -1,4 +1,5 @@
 # RacingAngularGame
+![alt text](https://github.com/qinyi2000/RaceGame/blob/master/Pic.PNG)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.0.1.
 
