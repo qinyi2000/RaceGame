@@ -24,6 +24,14 @@
       <h2>Loading</h2>
   </div>  
 </div>
-<button (click)="updatePauseStatus()" [value]="button_text">{{button_text}}</button>
+<div id="container">
+
+  <div class="overlay">
+    <button class="small button" (click)="updatePauseStatus()" [value]="button_text">{{button_text}}</button>
+    <br><br>
+    <div class="scoreBoard" ng-value="currentScore">Score: {{currentScore}}</div>
+  </div>
+
 <canvas id="gameCanvas" #game_canvas class="play-ground"></canvas>
+</div>
 <router-outlet></router-outlet>

@@ -1,6 +1,7 @@
 import { Component, ElementRef, AfterViewInit, ViewChild, HostListener  } from '@angular/core';
 import { AppService } from './services/app.service';
 import { GameService } from './services/game.service';
+import { Observable } from 'rxjs';
 
 @Component({
 	selector: 'app-root',
@@ -14,11 +15,17 @@ export class AppComponent implements AfterViewInit {
 	subscription: any;
 	showLoader = true;
 	button_text = "Pause";
+	currentScore = 0;
 
+	// Inject service
 	constructor(
 		private appService: AppService,
 		private gameService: GameService
-	) {}
+	) {
+		this.gameService.currentScoreObs.subscribe(score => {
+			this.currentScore = score;
+		})
+	}
 
 	public updatePauseStatus(){
 		const buttonStatus = this.gameService.updatePauseStatus();

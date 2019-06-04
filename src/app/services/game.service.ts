@@ -1,4 +1,4 @@
-import { Injectable, Input } from '@angular/core';
+import { Injectable, Input, Output, EventEmitter } from '@angular/core';
 
 import * as CONFIG from './../config/config';
 import { Obstacles } from './../interfaces/obstacles';
@@ -6,6 +6,7 @@ import { SingleObstacles } from './../interfaces/single-obstacle';
 import { PlayerPosition } from './../interfaces/player-position';
 import { SingleCoins } from '../interfaces/single-coin';
 import { Coins } from '../interfaces/coins';
+import { Subject } from 'rxjs';
 //import { CONTEXT_NAME } from '@angular/compiler/src/render3/view/util';
 //import { timingSafeEqual } from 'crypto';
 
@@ -19,6 +20,10 @@ export class GameService {
 		x: CONFIG.playGroundWidth / 2 - CONFIG.playerCar.width,
 		y: CONFIG.playGroundHeight - (CONFIG.playerCar.height + CONFIG.playerCar.height / 2),
 	};
+	currentScore = new Subject<number>();
+	currentScoreObs = this.currentScore.asObservable();
+	scoreRecorder = 0;
+	
 
 	context: CanvasRenderingContext2D;
 	obstacles: Array<Obstacles> = [];
@@ -95,6 +100,7 @@ export class GameService {
 			this.getSingleCoin();
 		}
 	}
+
 
 	getSingleObstacle(): void {
 		const context: CanvasRenderingContext2D = this.context;
@@ -247,6 +253,8 @@ export class GameService {
 		)
 	) {
 		this.context.clearRect(c.x, c.y, c.width, c.height); 
+		this.scoreRecorder = this.scoreRecorder + 10;
+		this.currentScore.next(this.scoreRecorder);
 		// the canvas is drawn repeatedly, so if the collided coin is not remvoed from the array, it will keep being drawn when it leaves the range of the car;
 		// therefore, merely clearing it from the screen is not enough (cause it immediately gets covered by the next canvas and the next canvas still has the 
 		// coin in the array). However, if we only remove the coin from the array but do not clearRect, the coin would not even be removed. So we need both.
