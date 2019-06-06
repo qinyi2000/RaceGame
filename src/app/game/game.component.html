@@ -1,0 +1,15 @@
+<div class="loader" [hidden]="!showLoader">
+  <div class="message">
+      <i class="fas fa-spinner fa-spin"></i>
+      <h2>Loading</h2>
+  </div>  
+</div>
+  <!-- pause button and score board -->
+  <div class="overlay">
+    <button class="small button" (click)="updatePauseStatus()" [value]="button_text">{{button_text}}</button>
+    <br><br>
+    <div class="scoreBoard" ng-value="currentScore">Score: {{currentScore}}</div>
+  </div>
+
+  <!-- canvas for playing game -->
+<canvas id="gameCanvas" #game_canvas class="play-ground"></canvas>
