@@ -11,7 +11,7 @@ This project was based on a project from [this website](https://www.codershood.i
 * I added coins to the original project. Coins will flash across the screen just as car obstacles would; if the driver touches the coin, the coin will disappear
 * I added pause/resume button; the text of the button will change dynamically depending on status of the game
 * I added a score board which uses Observable to track the change of scores
-* I added a home page that has a button linking to the game page
+* I added a home page using Bootstrap that has a button linking to the game page
 
 ## Development server
 
