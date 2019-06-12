@@ -1,12 +1,21 @@
-.bg { 
-    /* The image used */
-    background-image: url("https://mdbootstrap.com/img/Photos/Horizontal/Nature/full page/img(20).jpg");
-  
-    /* Full height */
-    height: 100%; 
-  
-    /* Center and scale the image nicely */
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-  }
+/* .masthead {
+  background-image: url("https://mdbootstrap.com/img/Photos/Others/img%20%2848%29.jpg");
+  background-size: cover; 
+  background-position: center center;
+} */
+#bg {
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+	
+  /* Preserve aspet ratio */
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.container {
+  padding-top: 10em;
+  color: white;
+  position: relative;
+  text-align:center;
+}

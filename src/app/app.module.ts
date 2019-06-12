@@ -8,7 +8,7 @@ import { AppService } from './services/app.service';
 import { GameService } from './services/game.service';
 import { GameModule } from './game/game.module';
 import { HomeComponent } from './home/home.component';
-
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
 	declarations: [
@@ -18,7 +18,8 @@ import { HomeComponent } from './home/home.component';
 	imports: [
     BrowserModule,
 	AppRoutingModule,
-	GameModule
+	GameModule,
+	NgbModule.forRoot()
 	],
 	providers: [AppService, GameService, {provide: APP_BASE_HREF, useValue: '/my/app'}],
 	bootstrap: [AppComponent]
